@@ -1,0 +1,88 @@
+{% extends 'base_auth.html'%}
+
+{% load static %}
+
+{% block content%}
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+
+
+        <div class="card mt-5">
+
+         
+
+            <div class="card-body" >
+
+                <div class="card-title">
+
+                    <h4>Register for a free account</h4>
+    
+                </div> 
+
+                <form action="{% url 'register'%}" method="post">
+                    {% csrf_token %} 
+                    {% include 'partials/_messages.html'%}
+
+                    <div class="form-group p-2">
+                        <input 
+                        type="text" 
+                        name="username" 
+                        placeholder="username"
+                        id="usernameField" 
+                        value="{{fieldValues.username}}"
+                        class="form-control form-control-sm "/>
+                    </div>
+                  <div class="invalid-feedback invalid-feedback" style="display:none">
+                    
+
+                  </div>
+
+                  <p class="text-sm text-success usernameSuccessOutput"></p>
+
+                    <div class="form-group p-2">
+                        <input 
+                        type="email" 
+                        name="email" 
+                        id="emailField"
+                        placeholder="email" 
+                        value="{{fieldValues.email}}"
+                        class="form-control form-control-sm "/>
+                    </div>
+
+                    <div class="emailFeedBackArea invalid-feedback" style="display:none">
+                    
+
+                    </div>
+
+                    <p class="text-sm text-success emailSuccessOutput"></p>
+                    <div class="form-group p-2">
+                        <input 
+                        type="password" 
+                        name="password"
+                        placeholder="password" 
+                        id="passwordField" 
+                        class="form-control form-control-sm"/>
+                        
+
+                        <small class="float-end p-2 showPasswordToggle">SHOW</small>
+                    </div>
+
+                    <input type="submit" value="Register" class="btn  btn-primary submit-btn">
+
+                </form>
+
+            </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-md-4"></div>
+    
+</div>
+
+<script src="{% static 'js/register.js'%}"></script>
+
+{% endblock%}
