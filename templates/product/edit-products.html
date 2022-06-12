@@ -7,15 +7,22 @@
     <div class="container mt-4">
     
         
-            <div class="col-md-10">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                      <li class="breadcrumb-item"><a href="">Products</a></li>
-                      
-                    </ol>
-                  </nav>
-            </div>
-        
+          <div class="row">
+              <div class="col-md-10">
+                <div class="col-md-10">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="">Products</a></li>
+                          
+                        </ol>
+                      </nav>
+                </div>
+            
+              </div>
+              <div class="col-md-2">
+                  <a href="{% url 'product-delete' product.id %}" class="btn btn-danger btn-sm">Delete</a>
+              </div>
+          </div>
            
         </div>
     </div>
@@ -24,7 +31,7 @@
     <div class="card">
 
       <div class="card-body">
-        <form action="{% url 'add-products'%}" method="post">
+        <form action="{% url 'product_edit' product.id %}" method="post">
           {% include 'partials/_messages.html'%}
 
           {% csrf_token %}
@@ -72,9 +79,19 @@
         <label for="" >Category</label>
 
         <select class = "form-control" name="category">
+            <option 
+            selected 
+            name = "category" 
+            value="{{values.category}}">
+            {{values.category}}
+        </option>
 
          {% for category in categories%} 
-         <option name = "category" vlaue="{{category.name}}">{{category.name}}</option>
+         <option 
+         name = "category" 
+         value="{{category.name}}">
+         {{category.name}}
+        </option>
 
         {% endfor %}
         </select>
@@ -82,7 +99,10 @@
 
       
       </div>
-      <input type="submit" value="submit" class="btn btn-primary sm p-2">
+      <input 
+      type="submit"
+       value="Save" 
+       class="btn btn-primary  p-2">
 
 
     </form>

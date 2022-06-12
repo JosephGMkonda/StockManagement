@@ -10,7 +10,7 @@
             <div class="col-md-10">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                      <li class="breadcrumb-item"><a href="">Products</a></li>
+                      <li class="breadcrumb-item"><a href="">Sells</a></li>
                       
                     </ol>
                   </nav>
@@ -24,7 +24,7 @@
     <div class="card">
 
       <div class="card-body">
-        <form action="{% url 'add-products'%}" method="post">
+        <form action="{% url 'add-sells'%}" method="post">
           {% include 'partials/_messages.html'%}
 
           {% csrf_token %}
@@ -64,17 +64,17 @@
         <input 
         type="date" 
         class="form-control form-control-sm" 
-        name="product_date"
+        name="sells_date"
         />
       </div>
 
       <div class="form-group p-2">
-        <label for="" >Category</label>
+        <label for="" >Sells Category</label>
 
-        <select class = "form-control" name="category">
+        <select class = "form-control" name="sellsProduct">
 
-         {% for category in categories%} 
-         <option name = "category" vlaue="{{category.name}}">{{category.name}}</option>
+         {% for sellsProduct in sellsProduct%} 
+         <option name = "sellsProduct" vlaue="{{sellsProduct.name}}">{{sellsProduct.name}}</option>
 
         {% endfor %}
         </select>

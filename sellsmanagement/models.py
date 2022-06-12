@@ -8,9 +8,7 @@ from django.utils.timezone import now
 
 
 
-class Products(models.Model):
-    
-
+class SellsProduct(models.Model):
     name = models.CharField(max_length=100)
     amount = models.FloatField()
     qauntity = models.IntegerField()
@@ -25,7 +23,7 @@ class Products(models.Model):
     class Meta:
         ordering:['-date']
 
-class Category(models.Model):
+class SellsProductCategory(models.Model):
     name = models.CharField(max_length=225)
 
     def __str__(self):

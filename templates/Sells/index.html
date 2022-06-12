@@ -11,14 +11,14 @@
         <div class="col-md-10">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="">Products</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Products</li>
+                  <li class="breadcrumb-item"><a href="">Sells Product</a></li>
+                  
                 </ol>
               </nav>
         </div>
     
         <div class="col-md-2">
-            <a href="{% url 'add-products'%}" class="btn btn-primary">Add product</a>
+            <a href="{% url 'add-sells'%}" class="btn btn-primary">Add Sells</a>
         </div>
 
         <div class="container">
@@ -31,7 +31,7 @@
                 </div>
                 
             </div>
-            {% if products.count %}
+            {% if sells.count %}
 
             <diV class="app-table">
 
@@ -57,7 +57,7 @@
                             <td>{{product.date}}</td>
     
                             <td>
-                                <a href="{% url 'product_edit' product.id %}"
+                                <a href="{% url 'sells_edit' product.id %}"
                                  class="btn btn-secondary btn-sm">
                                  Edit</a>
                                 </td>
@@ -129,7 +129,7 @@
     </div>
 </div>
 
-<script src="{% static 'js/searchProduct.js' %}">
+<script src="{% static 'js/searchSell.js' %}">
 
 </script>
 
