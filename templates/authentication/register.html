@@ -68,10 +68,19 @@
 
                         <small class="float-end p-2 showPasswordToggle">SHOW</small>
                     </div>
-
-                    <input type="submit" value="Register" class="btn  btn-primary submit-btn">
-
+                    <input 
+                    type="submit" 
+                    value="register" 
+                    class="btn btn-primary  submit-btn"
+                    style="display: block; width: 50%;  border-radius: 0%; text-align: center;  margin: 0 auto;"
+                     />
                 </form>
+                <div class="text-center mt-3">
+                    <a href="{% url 'login' %}" class="text-decoration-none"> have an account? Sign in here.</a>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="" class="text-decoration-none">Forgot your password? Reset it here.</a>
+                </div>
 
             </div>
             </div>

@@ -7,8 +7,9 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
+from django.db.models import Sum
 
-
+@login_required(login_url="/authentication/login")
 def search_product(request):
     if request.method == "POST":
         search_str = json.loads(request.body).get("searchText")
@@ -41,7 +42,7 @@ def index(request):
     return render(request,'product/index.html', context)
 
     
-
+@login_required(login_url="/authentication/login")
 def add_product(request):
     categories = Category.objects.all()
 
@@ -68,14 +69,27 @@ def add_product(request):
         if not qauntity:
             messages.error(request,"amount of the qauntity required")
             return render(request,'product/add_product.html', context)
-   
+        
+        owner=request.user
+        existing_product = Products.objects.filter(name=name, owner=owner).first()
 
-        Products.objects.create(owner=request.user,name=name,amount=amount,qauntity=qauntity,category=category,date=date)
-        messages.success(request,"The product added successfully")
+        if existing_product:
+            existing_product.qauntity+= int(qauntity)
+            existing_product.amount += float(amount)
+            existing_product.save()
+        else:
+            Products.objects.create(
+                owner=owner,
+                name=name,
+                amount=float(amount),
+                qauntity=float(qauntity),
+                category=category,
+                date=date)
+            messages.success(request,"The product added successfully")
         return redirect("products")
 
     return render(request,'product/add_product.html',context)
-
+@login_required(login_url="/authentication/login")
 def product_edit(request,id):
     product=Products.objects.get(pk=id)
     categories = Category.objects.all()
@@ -105,10 +119,15 @@ def product_edit(request,id):
         if not qauntity:
             messages.error(request,"amount of the qauntity required")
             return render(request,'product/edit-products.html', context)
+        
+
    
 
         
         product.owner=request.user
+        
+
+
         product.name=name
         product.amount=amount
         product.qauntity=qauntity
@@ -120,9 +139,13 @@ def product_edit(request,id):
 
     return render(request,'product/edit-products.html',context)
 
- 
+@login_required(login_url="/authentication/login")
 def delete_product(request,id):
     product = Products.objects.get(pk=id)
     product.delete()
     messages.success(request,"Product Removed")
     return redirect("products")
+
+
+
+

@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 
-# Create your models here.
 
 
 
@@ -14,7 +13,8 @@ class SellsProduct(models.Model):
     qauntity = models.IntegerField()
     date = models.DateField(default=now)
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    category = models.CharField(max_length=225)
+    
+    
     
 
     def __str__(self):
@@ -23,8 +23,8 @@ class SellsProduct(models.Model):
     class Meta:
         ordering:['-date']
 
-class SellsProductCategory(models.Model):
-    name = models.CharField(max_length=225)
+# class SellsProductCategory(models.Model):
+
 
     def __str__(self):
         return self.name

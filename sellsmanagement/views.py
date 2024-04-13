@@ -2,11 +2,12 @@ from multiprocessing import context
 from pyexpat.errors import messages
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from .models import SellsProduct,SellsProductCategory
+from .models import SellsProduct
 from django.contrib import messages
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
+from ProductManager.models import Products
 
 
 def search_sells(request):
@@ -15,10 +16,9 @@ def search_sells(request):
         sellsProduct = SellsProduct.objects.filter(
             name__istartswith=search_str, owner=request.user)|SellsProduct.objects.filter(
             amount__istartswith=search_str, owner=request.user)|SellsProduct.objects.filter(
-            date__istartswith=search_str, owner=request.user)|SellsProduct.objects.filter(
-            category__istartswith=search_str, owner=request.user)
+            date__istartswith=search_str, owner=request.user)
 
-        data = SellsProduct.values()
+        data = sellsProduct.values()
         return JsonResponse(list(data),safe=False)
 
 
@@ -43,10 +43,10 @@ def index(request):
     
 
 def add_sells(request):
-    sellsProduct = SellsProductCategory.objects.all()
+    
 
     context = {
-        "sellsProduct":sellsProduct,
+        
         "values": request.POST
     }
     if request.method == "GET":
@@ -58,7 +58,7 @@ def add_sells(request):
             messages.error(request,"name of the product required")
             return render(request,'Sells/add_sells.html', context)
         qauntity = request.POST['qauntity']
-        category = request.POST['sellsProduct']
+        
         date = request.POST['sells_date']
         amount = request.POST['amount']
 
@@ -68,23 +68,59 @@ def add_sells(request):
         if not qauntity:
             messages.error(request,"amount of the qauntity required")
             return render(request,'Sells/add_sells.html', context)
-   
+        owner=request.user
+        
+        
+        existing_product = SellsProduct.objects.filter(name=name, owner=owner).first()
 
-        SellsProduct.objects.create(owner=request.user,name=name,amount=amount,qauntity=qauntity,category=category,date=date)
-        messages.success(request,"Sells saved successfully")
+        if existing_product:
+            existing_product.qauntity+= int(qauntity)
+            existing_product.amount += float(amount)
+            existing_product.save()
+
+
+   
+        else:
+            SellsProduct.objects.create(
+                owner=owner,
+                name=name,
+                amount=amount,
+                qauntity=qauntity,
+                date=date)
+            
+        messages.success(request, f"Sells saved successfully for product '{name}'")
         return redirect("sells")
 
+        
+
     return render(request,'Sells/add_sells.html',context)
+
+def search_products(request):
+    if request.method == 'GET':
+        search_query = request.GET.get('query', '')  
+        products = Products.objects.filter(name__icontains=search_query)
+        
+        
+        data = []
+        for product in products:
+            product_data = {
+                'name': product.name,
+                
+                
+            }
+            data.append(product_data)
+        
+        return JsonResponse(data, safe=False)
 
 @login_required(login_url="/authentication/login")
 def sells_edit(request,id):
     sellsProduct = SellsProduct.objects.get(pk=id)
-    sellsProduct = SellsProduct.objects.all()
+    
 
     context = {
         "sellsProduct":sellsProduct,
         "values":sellsProduct,
-        "sellsProduct":sellsProduct
+        
     }
     if request.method=="GET":
         return render(request, "Sells/edit_sells.html",context)
@@ -96,7 +132,7 @@ def sells_edit(request,id):
             messages.error(request,"name of the product required")
             return render(request,'Sells/edit-sells.html', context)
         qauntity = request.POST['qauntity']
-        category = request.POST['category']
+        
         date = request.POST['product_date']
         amount = request.POST['amount']
 
@@ -109,11 +145,11 @@ def sells_edit(request,id):
    
 
         
-        sellsProduct.owner=request.user
+        
         sellsProduct.name=name
         sellsProduct.amount=amount
         sellsProduct.qauntity=qauntity
-        sellsProduct.category=category
+        
         sellsProduct.date=date
         sellsProduct.save()
         messages.success(request,"The Record updated successfully")
@@ -123,6 +159,7 @@ def sells_edit(request,id):
 
  
 def delete_sells(request,id):
+    
     sellsProduct = SellsProduct.objects.get(pk=id)
     sellsProduct.delete()
     messages.success(request,"Record Removed")

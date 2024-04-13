@@ -1,5 +1,6 @@
 
 {% extends 'base.html'%}
+{% load static %}
 
 {% block content%}
 <div class="container">
@@ -8,12 +9,7 @@
     
         
             <div class="col-md-10">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                      <li class="breadcrumb-item"><a href="">Sells</a></li>
-                      
-                    </ol>
-                  </nav>
+               
             </div>
         
            
@@ -35,8 +31,22 @@
         class=" form-control form-control-sm"
          name="name"
          value="{{values.name}}"
+         readonly 
+         id="add-name"
+         
          />
       </div>
+
+      {% comment %} <div class="form-group p-2">
+        <label for="" >Category</label>
+        <input 
+        type="text" 
+        class=" form-control form-control-sm"
+         name="category"
+         readonly
+         id="category-input"
+         />
+      </div> {% endcomment %}
 
       <div class="form-group p-2">
         <label for="" >Amount</label>
@@ -68,21 +78,36 @@
         />
       </div>
 
-      <div class="form-group p-2">
-        <label for="" >Sells Category</label>
-
-        <select class = "form-control" name="sellsProduct">
-
-         {% for sellsProduct in sellsProduct%} 
-         <option name = "sellsProduct" vlaue="{{sellsProduct.name}}">{{sellsProduct.name}}</option>
-
-        {% endfor %}
-        </select>
-
-
       
-      </div>
-      <input type="submit" value="submit" class="btn btn-primary sm p-2">
+      <input type="submit" value="submit" class="btn btn-primary sm p-2" style="display:block">
+
+
+
+      <div class="modal" id="productModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Select Product</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <!-- Product selection options -->
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="searchProductField" placeholder="Search...">
+                  </div>
+                  <p>Select a product:</p>
+                  <div id="productList"></div>
+
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="ok-button" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     </form>
@@ -94,5 +119,9 @@
 
   
 </div>
+
+<script src="{% static 'js/addingSells.js' %}">
+
+</script>
 
 {% endblock %}

@@ -19,9 +19,7 @@
                 </div>
             
               </div>
-              <div class="col-md-2">
-                  <a href="{% url 'sells-delete' sells.id %}" class="btn btn-danger btn-sm">Delete</a>
-              </div>
+              
           </div>
            
         </div>
@@ -31,10 +29,11 @@
     <div class="card">
 
       <div class="card-body">
-        <form action="{% url 'sells_edit' sells.id %}" method="post">
+        <form action="{% url 'sell_edit' sellsProduct.id %}" method="post">
           {% include 'partials/_messages.html'%}
 
           {% csrf_token %}
+          
       <div class="form-group p-2">
         <label for="" >Name</label>
         <input 
@@ -42,6 +41,7 @@
         class=" form-control form-control-sm"
          name="name"
          value="{{values.name}}"
+         readonly
          />
       </div>
 
@@ -52,6 +52,7 @@
         class=" form-control form-control-sm" 
         name="amount"
         value="{{values.amount}}"
+
 
         />
       </div>
@@ -75,30 +76,7 @@
         />
       </div>
 
-      <div class="form-group p-2">
-        <label for="" >Category</label>
-
-        <select class = "form-control" name="category">
-            <option 
-            selected 
-            name = "sellsProduct" 
-            value="{{values.sellsProduct}}">
-            {{values.sellsProduct}}
-        </option>
-
-         {% for sellsProduct in sellsProduct%} 
-         <option 
-         name = "sellsProduct" 
-         value="{{sellsProduct.name}}">
-         {{sellsProduct.name}}
-        </option>
-
-        {% endfor %}
-        </select>
-
-
       
-      </div>
       <input 
       type="submit"
        value="Save" 

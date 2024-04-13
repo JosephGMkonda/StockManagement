@@ -8,27 +8,29 @@
     
     <div class="row">
         {% include 'partials/_messages.html'%}
-        <div class="col-md-10">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="">Sells Product</a></li>
-                  
-                </ol>
-              </nav>
-        </div>
-    
-        <div class="col-md-2">
-            <a href="{% url 'add-sells'%}" class="btn btn-primary">Add Sells</a>
-        </div>
+        
 
         <div class="container">
             <div class="row">
-                <div class="col-md-8"></div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="searchField" placeholder="Search">
-                    </div>
-                </div>
+        
+                
+                        
+
+                        <div class="col-md-6">
+                            <h2 class="ml-lg-2" style="font-weight:bold;">Manage Sells</h2>
+                        </div>
+                        
+                    
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="searchField" placeholder="Search">
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-2 p-0 flex justify-content-lg-end justify-content-center">
+                            <a href="{% url 'add-sells'%}" class="btn btn-success"><span data-feather="plus-circle"></span> Add Product</a>
+                        </div>
+                    
                 
             </div>
             {% if sells.count %}
@@ -38,11 +40,12 @@
                 <table class="table table-stripped table-hover">
                     <thead>
                         <tr>
-                            <th>Category</th>
+                            
                             <th>Name</th>
                             <th>Amount</th>
                             <th>Qauntity</th>
                             <th>Date</th>
+                            <th>Action</th>
     
                         </tr>
                         
@@ -50,16 +53,23 @@
                     <tbody>
                         {% for product in page_obj %}
                         <tr>
-                            <td>{{product.category}}</td>
+                            
                             <td>{{product.name}}</td>
-                            <td>k {{product.amount}}</td>
+                            <td>${{product.amount}}</td>
                             <td>{{product.qauntity}}</td>
                             <td>{{product.date}}</td>
     
                             <td>
-                                <a href="{% url 'sells_edit' product.id %}"
-                                 class="btn btn-secondary btn-sm">
-                                 Edit</a>
+                                
+                                <a href="{% url 'sell_edit' sellsProduct.id %}"
+                                class="">
+                                <span data-feather="edit-3"></span></a> 
+                               
+
+                               
+                                   <a href=""
+                                    class="">
+                                    <span data-feather="trash-2"></span></a>
                                 </td>
                         </tr>
                         {% endfor %}
@@ -99,30 +109,30 @@
 
             
 
-            <div>
-                Showing page {{ page_obj.number }}  of {{ page_obj.paginator.num_pages }}
+                <div class="">
+                    Showing page {{ page_obj.number }}  of {{ page_obj.paginator.num_pages }}
+                </div>
+    
+             <ul class="pagination d-flex justify-content-end">
+    
+                {% if page_obj.has_previous %}
+    
+                <li {% if page_obj.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo; 1</a></a></li>
+                <li class="page-item"> <a class="page-link" href="?page={{ page_obj.previous_page_number}}">Previous</a></li>
+    
+                {% endif %}
+    
+                {% if page_obj.has_next %}
+    
+                <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{page_obj.paginator.num_pages}}">{{ page_obj.paginator.num_pages}}</a></li>
+                
+                {% endif %}
+    
+             </ul>
+    
+                {% endif %}
             </div>
-
-         <ul class="pagination align-right float-right mr-auto">
-
-            {% if page_obj.has_previous %}
-
-            <li {% if page_obj.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo; 1</a></a></li>
-            <li class="page-item"> <a class="page-link" href="?page={{ page_obj.previous_page_number}}">Previous</a></li>
-
-            {% endif %}
-
-            {% if page_obj.has_next %}
-
-            <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Next</a></li>
-            <li class="page-item"><a class="page-link" href="?page={{page_obj.paginator.num_pages}}">{{ page_obj.paginator.num_pages}}</a></li>
-            
-            {% endif %}
-
-         </ul>
-
-            {% endif %}
-        </div>
         
     </div>
     
